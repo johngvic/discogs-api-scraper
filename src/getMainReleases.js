@@ -47,6 +47,13 @@ fs.readFile(
       }
     }
 
-    saveData('failed_requests.csv', failedIds);
+    if (mainReleaseIds.length > 0) {
+      saveData(`releases_last.json`, mainReleaseIds);
+      console.log(`Saved remaining ${mainReleaseIds.length} items`);
+    }
+
+    if (failedIds.length > 0) {
+      saveData('failed_requests.csv', failedIds);
+    }
   }
 )
