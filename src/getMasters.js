@@ -1,9 +1,6 @@
-import { saveData } from './saveData.js';
+import { saveData } from './utils/saveData.js';
+import { sleep } from './utils/sleep.js';
 import vars from './vars.js';
-
-const sleep = async (ms) => {
-  await new Promise(resolve => setTimeout(resolve, ms));
-}
 
 (async () => {
   const { baseUrl, userAgent, token } = vars;
@@ -15,7 +12,7 @@ const sleep = async (ms) => {
     console.log(`Processing page ${page}. Already ${masterIds.length} processed IDs`);
 
     const response = await fetch(
-      `${baseUrl}/search?type=master&per_page=${perPage}&page=${page}`,
+      `${baseUrl}/database/search?type=master&per_page=${perPage}&page=${page}`,
       {
         headers: {
           Authorization: `Discogs token=${token}`,
@@ -37,6 +34,6 @@ const sleep = async (ms) => {
     if (!data.pagination.urls.next) break;
 
     page++;
-    sleep(1000);
+    await sleep(1000);
   }
 })()
