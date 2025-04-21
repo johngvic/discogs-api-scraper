@@ -12,12 +12,14 @@ fs.readFile(
     const masterIds = data.split('\n');
     let mainReleaseIds = [];
     let counter = 0;
+    let cycle = 0;
     const failedIds = [];
 
     for (const id of masterIds) {
       try {
-        const url = `${baseUrl}/masters/${id}`;
-        console.log(`${counter} - Request URL called: ${url}`);
+        const parsedId = Number(id)
+        const url = `${baseUrl}/masters/${parsedId}`;
+        console.log(`${counter} - ${parsedId} - Request URL called: ${url}`);
   
         const response = await fetch(
           url,
@@ -29,16 +31,19 @@ fs.readFile(
           }
         );
   
-        const data = await response.json();
-        const mainReleaseId = data.main_release;
+        const dt = await response.json();
+        const mainReleaseId = dt.main_release;
         mainReleaseIds.push(mainReleaseId);
+
+        console.log({ master: parsedId, release: mainReleaseId })
         
         await sleep(1000);
         counter++;
   
         if (counter == 1500) {
-          saveData(`releases_${counter}.csv`, mainReleaseIds);
+          saveData(`releases_${cycle}.csv`, mainReleaseIds);
           counter = 0;
+          cycle++;
           mainReleaseIds = [];
         }
       } catch (e) {
@@ -48,7 +53,7 @@ fs.readFile(
     }
 
     if (mainReleaseIds.length > 0) {
-      saveData(`releases_last.json`, mainReleaseIds);
+      saveData(`releases_last.csv`, mainReleaseIds);
       console.log(`Saved remaining ${mainReleaseIds.length} items`);
     }
 
