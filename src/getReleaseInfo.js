@@ -9,17 +9,17 @@ const extractReleaseData = (release) => {
   const { artists, extraartists, images } = release;
   const parsedArtists = artists?.map(({ name, anv, role, id }) => ({ name, anv, role, id }));
   const parsedExtraartists = extraartists?.map(({ name, anv, role, id }) => ({ name, anv, role, id }));
-  const [cover] = images?.filter(({ type }) => type == 'primary');
+  const [image] = images?.filter(({ uri }) => uri);
 
   const data = {
     id: release.id,
     title: release.title,
     year: release.year,
+    cover: image.uri ?? '',
     genres: release.genres,
     styles: release.styles,
     artists: parsedArtists,
-    extraartists: parsedExtraartists,
-    cover
+    extraartists: parsedExtraartists
   };
 
   return data;
