@@ -1,12 +1,12 @@
-import { saveData } from './utils/saveData.js';
-import { sleep } from './utils/sleep.js';
+import { saveData } from '../utils/saveData.js';
+import { sleep } from '../utils/sleep.js';
 import vars from './vars.js';
 import fs from 'fs';
 
 const { baseUrl, userAgent, token } = vars;
 
 fs.readFile(
-  '../files/masters.csv',
+  '../../files/masters.csv',
   { encoding: 'utf-8' },
   async (e, data) => {
     const masterIds = data.split('\n');

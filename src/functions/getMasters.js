@@ -1,5 +1,5 @@
-import { saveData } from './utils/saveData.js';
-import { sleep } from './utils/sleep.js';
+import { saveData } from '../utils/saveData.js';
+import { sleep } from '../utils/sleep.js';
 import vars from './vars.js';
 
 (async () => {

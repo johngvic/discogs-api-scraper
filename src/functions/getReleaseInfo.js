@@ -1,5 +1,5 @@
-import { saveData } from './utils/saveData.js';
-import { sleep } from './utils/sleep.js';
+import { saveData } from '../utils/saveData.js';
+import { sleep } from '../utils/sleep.js';
 import vars from './vars.js';
 import fs from 'fs';
 
@@ -26,13 +26,14 @@ const extractReleaseData = (release) => {
 };
 
 fs.readFile(
-  '../files/releases.csv',
+  '../../files/releases.csv',
   { encoding: 'utf-8' },
   async (e, data) => {
     const releaseIds = data.split('\n');
     const failedReleases = [];
     let releaseInfo = [];
     let counter = 0;
+    let cycle = 0;
 
     for (const id of releaseIds) {
       try {
@@ -57,9 +58,15 @@ fs.readFile(
         counter++;
   
         if (counter == 1500) {
-          saveData(`release_info_${counter}.json`, releaseInfo);
+          saveData(`release_info_${cycle}.json`, releaseInfo);
           counter = 0;
+          cycle++;
           releaseInfo = [];
+        }
+
+        // TODO: Remove this afterwards...
+        if (cycle == 4) {
+          break;
         }
       } catch (e) {
         console.error(`Failed to get release info for ID ${id}: ${e}`)
