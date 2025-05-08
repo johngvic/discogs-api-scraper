@@ -15,7 +15,7 @@ const extractReleaseData = (release) => {
     id: release.id,
     title: release.title,
     year: release.year,
-    cover: image.uri ?? '',
+    cover: image ? image.uri : '',
     genres: release.genres,
     styles: release.styles,
     artists: parsedArtists,
@@ -62,11 +62,6 @@ fs.readFile(
           counter = 0;
           cycle++;
           releaseInfo = [];
-        }
-
-        // TODO: Remove this afterwards...
-        if (cycle == 4) {
-          break;
         }
       } catch (e) {
         console.error(`Failed to get release info for ID ${id}: ${e}`)
